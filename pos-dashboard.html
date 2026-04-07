@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Systém – Vzdálená správa</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f4f6;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* === Horní lišta === */
+        .topbar {
+            background: #1f4e79;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid #163a59;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .topbar-logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .topbar-logo span {
+            color: #dbe6f2;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 14px;
+            background: rgba(76, 175, 80, 0.15);
+            color: #81c784;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.offline {
+            background: #f44336;
+            animation: none;
+        }
+
+        .connection-status.offline {
+            background: rgba(244, 67, 54, 0.15);
+            color: #ef9a9a;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.85rem;
+        }
+
+        .topbar-time {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .back-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* === Layout === */
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 52px);
+        }
+
+        /* === Sidebar === */
+        .sidebar {
+            width: 220px;
+            background: #ffffff;
+            border-right: 1px solid #d8dce2;
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+
+        .sidebar-section {
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+
+        .sidebar-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #6b7280;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: #374151;
+            margin-bottom: 2px;
+        }
+
+        .sidebar-item:hover {
+            background: #eef2f6;
+            color: #1f4e79;
+        }
+
+        .sidebar-item.active {
+            background: #e9f2fb;
+            color: #1f4e79;
+        }
+
+        .sidebar-icon {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* === Hlavní obsah === */
+        .main {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            color: #1f4e79;
+            margin-bottom: 20px;
+        }
+
+        /* === Karty statistik === */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid #d8dce2;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .stat-card-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f4e79;
+        }
+
+        .stat-card-value.green { color: #81c784; }
+        .stat-card-value.orange { color: #ffb74d; }
+        .stat-card-value.red { color: #ef9a9a; }
+
+        .stat-card-change {
+            font-size: 0.75rem;
+            margin-top: 4px;
+            color: #81c784;
+        }
+
+        .stat-card-change.negative {
+            color: #ef9a9a;
+        }
+
+        /* === Sekce === */
+        .section {
+            background: #ffffff;
+            border: 1px solid #d8dce2;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #d8dce2;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f4e79;
+        }
+
+        .section-body {
+            padding: 16px 20px;
+        }
+
+        /* === Tabulka === */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 10px 12px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #6b7280;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #d8dce2;
+        }
+
+        .data-table td {
+            padding: 12px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #eef2f6;
+            color: #374151;
+        }
+
+        .data-table tr:last-child td { border-bottom: none; }
+
+        /* === Badges === */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-online {
+            background: rgba(76, 175, 80, 0.15);
+            color: #81c784;
+        }
+
+        .badge-offline {
+            background: rgba(244, 67, 54, 0.15);
+            color: #ef9a9a;
+        }
+
+        .badge-warning {
+            background: rgba(255, 183, 77, 0.15);
+            color: #ffb74d;
+        }
+
+        .badge-info {
+            background: rgba(79, 195, 247, 0.15);
+            color: #4fc3f7;
+        }
+
+        /* === Tlačítka === */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #1f4e79;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #163a59;
+        }
+
+        .btn-danger {
+            background: rgba(244, 67, 54, 0.15);
+            color: #ef9a9a;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(244, 67, 54, 0.25);
+        }
+
+        .btn-success {
+            background: rgba(76, 175, 80, 0.15);
+            color: #81c784;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-success:hover {
+            background: rgba(76, 175, 80, 0.25);
+        }
+
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 0.75rem;
+        }
+
+        /* === Terminál === */
+        .terminal {
+            background: #f8fafc;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.8rem;
+            overflow: hidden;
+            margin-top: 12px;
+            border: 1px solid #d8dce2;
+        }
+
+        .terminal-header {
+            background: #eef2f6;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #f44336;
+        }
+
+        .terminal-dot:nth-child(2) { background: #ffb74d; }
+        .terminal-dot:nth-child(3) { background: #81c784; }
+
+        .terminal-body {
+            padding: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+
+        .terminal-line { color: #374151; }
+
+        .terminal-line .prompt { color: #81c784; }
+        .terminal-line .info { color: #4fc3f7; }
+        .terminal-line .success { color: #81c784; }
+        .terminal-line .error { color: #ef9a9a; }
+        .terminal-line .warning { color: #ffb74d; }
+
+        /* === Nastavení POS === */
+        .pos-config {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 1px solid #d8dce2;
+        }
+
+        .config-label {
+            font-size: 0.85rem;
+            color: #374151;
+        }
+
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background: #2a3a4a;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+
+        .toggle.active {
+            background: #4caf50;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle.active::after {
+            transform: translateX(20px);
+        }
+
+        /* === Stránky (skrývání) === */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* === Nápověda === */
+        .help-section {
+            background: #ffffff;
+            border: 1px solid #d8dce2;
+            border-radius: 8px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .help-toggle {
+            padding: 16px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f4e79;
+            border-bottom: 1px solid #d8dce2;
+        }
+
+        .help-toggle:hover {
+            background: #f8fafc;
+        }
+
+        .help-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.4s ease;
+            opacity: 0;
+            padding: 0 20px;
+        }
+
+        .help-body.open {
+            max-height: 1200px;
+            opacity: 1;
+            padding: 20px;
+        }
+
+        .help-body h3 {
+            color: #1f4e79;
+            font-size: 0.95rem;
+            margin: 16px 0 8px;
+        }
+
+        .help-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .help-body p, .help-body li {
+            color: #4b5563;
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        .help-body ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .help-body li {
+            padding: 4px 0 4px 18px;
+            position: relative;
+        }
+
+        .help-body li::before {
+            content: '\2022';
+            color: #1f4e79;
+            font-weight: bold;
+            position: absolute;
+            left: 2px;
+        }
+
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tech-tag {
+            background: #eef2f6;
+            color: #1f4e79;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid #d8dce2;
+            cursor: default;
+        }
+
+        .tech-tag:hover {
+            background: #dbe6f2;
+        }
+
+        /* === Responzivní === */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .pos-config { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .topbar { flex-wrap: wrap; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Horní lišta -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <div class="topbar-logo">POS<span>Remote</span></div>
+            <div class="connection-status" id="connStatus">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Připojeno</span>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <span class="topbar-time" id="clock"></span>
+            <a href="index2.html" class="back-link">&larr; Životopis</a>
+        </div>
+    </div>
+
+    <div class="layout">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-label">Hlavní</div>
+                <div class="sidebar-item active" data-page="dashboard">
+                    <span class="sidebar-icon">&#9635;</span> Přehled
+                </div>
+                <div class="sidebar-item" data-page="pos">
+                    <span class="sidebar-icon">&#9881;</span> POS nastavení
+                </div>
+                <div class="sidebar-item" data-page="remote">
+                    <span class="sidebar-icon">&#9992;</span> Vzdálený přístup
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">Prodejny</div>
+                <div class="sidebar-item" data-page="stores">
+                    <span class="sidebar-icon">&#9750;</span> Správa prodejen
+                </div>
+                <div class="sidebar-item" data-page="logs">
+                    <span class="sidebar-icon">&#9776;</span> Protokoly
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hlavní obsah -->
+        <main class="main">
+
+            <!-- Dashboard -->
+            <div class="page active" id="page-dashboard">
+                <h1 class="page-title">Přehled systému</h1>
+                <p style="margin-bottom: 16px; color: #4b5563;">Jednoduchá ukázka rozhraní pro kontrolu pokladen, kterou jsem si vytvořil jako první návrh podobného systému.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-label">Aktivní prodejny</div>
+                        <div class="stat-card-value green" id="activeStores">3</div>
+                        <div class="stat-card-change">&#9650; Vše v provozu</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">Dnešní tržba</div>
+                        <div class="stat-card-value" id="todayRevenue">24 580 Kč</div>
+                        <div class="stat-card-change">&#9650; +12% oproti včerejšku</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">Transakcí dnes</div>
+                        <div class="stat-card-value orange" id="transactions">47</div>
+                        <div class="stat-card-change negative">&#9660; -3 oproti včerejšku</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">Vzdálená spojení</div>
+                        <div class="stat-card-value green">2</div>
+                        <div class="stat-card-change">Aktivní VPN tunely</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-title">Stav pokladen</span>
+                        <button class="btn btn-primary btn-sm" id="refreshBtn">Obnovit</button>
+                    </div>
+                    <div class="section-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Pokladna</th>
+                                    <th>Prodejna</th>
+                                    <th>Stav</th>
+                                    <th>Poslední aktivita</th>
+                                    <th>Akce</th>
+                                </tr>
+                            </thead>
+                            <tbody id="posTable">
+                                <tr>
+                                    <td>POS-001</td>
+                                    <td>Prodejna Centrum</td>
+                                    <td><span class="badge badge-online">Online</span></td>
+                                    <td>právě teď</td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="togglePOS(this)">Odpojit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>POS-002</td>
+                                    <td>Prodejna Sever</td>
+                                    <td><span class="badge badge-online">Online</span></td>
+                                    <td>před 2 min</td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="togglePOS(this)">Odpojit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>POS-003</td>
+                                    <td>Prodejna Jih</td>
+                                    <td><span class="badge badge-online">Online</span></td>
+                                    <td>před 5 min</td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="togglePOS(this)">Odpojit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>POS-004</td>
+                                    <td>Sklad</td>
+                                    <td><span class="badge badge-offline">Offline</span></td>
+                                    <td>před 2 hod</td>
+                                    <td><button class="btn btn-success btn-sm" onclick="togglePOS(this)">Připojit</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POS Nastavení -->
+            <div class="page" id="page-pos">
+                <h1 class="page-title">Nastavení pokladního systému</h1>
+
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-title">Základní konfigurace</span>
+                    </div>
+                    <div class="section-body">
+                        <div class="pos-config">
+                            <div class="config-item">
+                                <span class="config-label">Tisk účtenky</span>
+                                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                            </div>
+                            <div class="config-item">
+                                <span class="config-label">EET odesílání</span>
+                                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                            </div>
+                            <div class="config-item">
+                                <span class="config-label">Zvukové upozornění</span>
+                                <div class="toggle" onclick="this.classList.toggle('active')"></div>
+                            </div>
+                            <div class="config-item">
+                                <span class="config-label">Automatické odpojení</span>
+                                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                            </div>
+                            <div class="config-item">
+                                <span class="config-label">Denní uzávěrka</span>
+                                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                            </div>
+                            <div class="config-item">
+                                <span class="config-label">Noční režim</span>
+                                <div class="toggle" onclick="this.classList.toggle('active')"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-title">Platební metody</span>
+                    </div>
+                    <div class="section-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Metoda</th>
+                                    <th>Stav</th>
+                                    <th>Poslední transakce</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Hotovost</td>
+                                    <td><span class="badge badge-online">Aktivní</span></td>
+                                    <td>před 3 min</td>
+                                </tr>
+                                <tr>
+                                    <td>Platební karta</td>
+                                    <td><span class="badge badge-online">Aktivní</span></td>
+                                    <td>před 8 min</td>
+                                </tr>
+                                <tr>
+                                    <td>NFC bezkontaktně</td>
+                                    <td><span class="badge badge-online">Aktivní</span></td>
+                                    <td>před 12 min</td>
+                                </tr>
+                                <tr>
+                                    <td>Stravenky</td>
+                                    <td><span class="badge badge-warning">Údržba</span></td>
+                                    <td>před 1 hod</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vzdálený přístup -->
+            <div class="page" id="page-remote">
+                <h1 class="page-title">Vzdálený přístup</h1>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-label">Aktivní VPN</div>
+                        <div class="stat-card-value green">2</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">Latence</div>
+                        <div class="stat-card-value">12 ms</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">Přeneseno dnes</div>
+                        <div class="stat-card-value orange">142 MB</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-title">Vzdálená spojení</span>
+                        <button class="btn btn-primary btn-sm" id="newConnBtn">+ Nové spojení</button>
+                    </div>
+                    <div class="section-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Prodejna</th>
+                                    <th>IP adresa</th>
+                                    <th>Tunel</th>
+                                    <th>Stav</th>
+                                    <th>Akce</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Prodejna Centrum</td>
+                                    <td>192.168.1.10</td>
+                                    <td><span class="badge badge-info">VPN</span></td>
+                                    <td><span class="badge badge-online">Připojeno</span></td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="togglePOS(this)">Ukončit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Prodejna Sever</td>
+                                    <td>192.168.2.10</td>
+                                    <td><span class="badge badge-info">VPN</span></td>
+                                    <td><span class="badge badge-online">Připojeno</span></td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="togglePOS(this)">Ukončit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Prodejna Jih</td>
+                                    <td>192.168.3.10</td>
+                                    <td><span class="badge badge-info">SSH</span></td>
+                                    <td><span class="badge badge-offline">Odpojeno</span></td>
+                                    <td><button class="btn btn-success btn-sm" onclick="togglePOS(this)">Spojit</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-title">Vzdálený terminál</span>
+                    </div>
+                    <div class="section-body">
+                        <div class="terminal">
+                            <div class="terminal-header">
+                                <div class="terminal-dot"></div>
+                                <div class="terminal-dot"></div>
+                                <div class="terminal-dot"></div>
+                            </div>
+                            <div class="terminal-body" id="terminalBody">
+                                <div class="terminal-line"><span class="prompt">pos@centrum:~$</span> systemctl status pos-service</div>
+                                <div class="terminal-line"><span class="success">● pos-service.service - POS System Service</span></div>
+                                <div class="terminal-line">   Active: <span class="success">active (running)</span></div>
+                                <div class="terminal-line">   Memory: 84.2M</div>
+                                <div class="terminal-line"><span class="prompt">pos@centrum:~$</span> pos --check-printer</div>
+                                <div class="terminal-line"><span class="info">[INFO]</span> Tiskárna: EPSON TM-T20III - připravena</div>
+                                <div class="terminal-line"><span class="prompt">pos@centrum:~$</span> pos --daily-report</div>
+                                <div class="terminal-line"><span class="info">[INFO]</span> Generuji denní uzávěrku...</div>
+                                <div class="terminal-line"><span class="success">[OK]</span> Uzávěrka vygenerována: 24 580 Kč / 47 transakcí</div>
+                                <div class="terminal-line"><span class="prompt">pos@centrum:~$</span> <span id="cursor" style="animation: pulse 1s infinite;">_</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Správa prodejen -->
+            <div class="page" id="page-stores">
+                <h1 class="page-title">Správa prodejen</h1>
+
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-title">Seznam prodejen</span>
+                    </div>
+                    <div class="section-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Název</th>
+                                    <th>Adresa</th>
+                                    <th>Pokladen</th>
+                                    <th>Stav</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Prodejna Centrum</td>
+                                    <td>Hlavní 15, Brno</td>
+                                    <td>1</td>
+                                    <td><span class="badge badge-online">Otevřeno</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Prodejna Sever</td>
+                                    <td>Severní 42, Brno</td>
+                                    <td>1</td>
+                                    <td><span class="badge badge-online">Otevřeno</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Prodejna Jih</td>
+                                    <td>Jižní 8, Brno</td>
+                                    <td>1</td>
+                                    <td><span class="badge badge-online">Otevřeno</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Sklad</td>
+                                    <td>Průmyslová 3, Brno</td>
+                                    <td>1</td>
+                                    <td><span class="badge badge-offline">Zavřeno</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protokoly -->
+            <div class="page" id="page-logs">
+                <h1 class="page-title">Systémové protokoly</h1>
+
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-title">Poslední události</span>
+                        <button class="btn btn-primary btn-sm" id="clearLogsBtn">Vyčistit</button>
+                    </div>
+                    <div class="section-body">
+                        <div class="terminal">
+                            <div class="terminal-header">
+                                <div class="terminal-dot"></div>
+                                <div class="terminal-dot"></div>
+                                <div class="terminal-dot"></div>
+                            </div>
+                            <div class="terminal-body" id="logsBody"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nápověda (na všech stránkách dole) -->
+            <div class="help-section">
+                <div class="help-toggle" id="helpToggle">Návod k použití a popis funkčnosti ▼</div>
+                <div class="help-body" id="helpBody">
+                    <h3>O aplikaci</h3>
+                    <p>Simulace vzdáleného přístupu k pokladnímu systému. Tato demo aplikace ukazuje,
+                    jak může vypadat jednoduché rozhraní pro správu více pokladen a prodejen z jednoho místa.</p>
+
+                    <h3>Navigace</h3>
+                    <ul>
+                        <li><strong>Přehled</strong> – hlavní dashboard se statistikami a stavem pokladen</li>
+                        <li><strong>POS nastavení</strong> – konfigurace pokladního systému (tisk, EET, platby)</li>
+                        <li><strong>Vzdálený přístup</strong> – správa VPN/SSH spojení s prodejnami a vzdálený terminál</li>
+                        <li><strong>Správa prodejen</strong> – přehled všech prodejen a jejich stavu</li>
+                        <li><strong>Protokoly</strong> – log systémových událostí v reálném čase</li>
+                    </ul>
+
+                    <h3>Interaktivní prvky</h3>
+                    <ul>
+                        <li><strong>Připojit/Odpojit</strong> – simulace zapnutí/vypnutí pokladny nebo VPN</li>
+                        <li><strong>Přepínače</strong> – zapnutí/vypnutí funkcí POS systému (kliknutím)</li>
+                        <li><strong>Obnovit</strong> – simulace obnovení dat z pokladen</li>
+                        <li><strong>Vzdálený terminál</strong> – ukázka příkazového řádku pro správu</li>
+                        <li><strong>Protokoly</strong> – automaticky se doplňují události</li>
+                    </ul>
+
+                    <h3>Reálné využití</h3>
+                    <p>V praxi jsem nastavoval pokladní systémy a vzdálený přístup k prodejnám,
+                    což zahrnovalo konfiguraci POS terminálů, tiskáren účtenek,
+                    platebních terminálů, VPN tunelů a vzdáleného přístupu pro údržbu. Tato stránka je jednoduchá demonstrace tohoto typu práce.</p>
+
+                    <h3>Použité technologie</h3>
+                    <div class="tech-grid">
+                        <div class="tech-tag">HTML5</div>
+                        <div class="tech-tag">CSS3</div>
+                        <div class="tech-tag">JavaScript</div>
+                        <div class="tech-tag">localStorage</div>
+                        <div class="tech-tag">Responzivní design</div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+    (function () {
+        // === Navigace ===
+        var sidebarItems = document.querySelectorAll('.sidebar-item');
+        var pages = document.querySelectorAll('.page');
+
+        sidebarItems.forEach(function (item) {
+            item.addEventListener('click', function () {
+                var pageId = this.getAttribute('data-page');
+
+                sidebarItems.forEach(function (i) { i.classList.remove('active'); });
+                this.classList.add('active');
+
+                pages.forEach(function (p) { p.classList.remove('active'); });
+                var target = document.getElementById('page-' + pageId);
+                if (target) target.classList.add('active');
+
+                addLog('Přepnuto na stránku: ' + this.textContent.trim());
+            });
+        });
+
+        // === Hodiny ===
+        function updateClock() {
+            var now = new Date();
+            var h = String(now.getHours()).padStart(2, '0');
+            var m = String(now.getMinutes()).padStart(2, '0');
+            var s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = h + ':' + m + ':' + s;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // === Simulace tržby ===
+        var revenue = 24580;
+        var txCount = 47;
+
+        setInterval(function () {
+            if (Math.random() > 0.7) {
+                var amount = Math.floor(Math.random() * 500) + 50;
+                revenue += amount;
+                txCount++;
+                document.getElementById('todayRevenue').textContent = revenue.toLocaleString('cs-CZ') + ' Kč';
+                document.getElementById('transactions').textContent = txCount;
+                addLog('Nová transakce: ' + amount + ' Kč (POS-00' + (Math.floor(Math.random() * 3) + 1) + ')');
+            }
+        }, 5000);
+
+        // === POS toggle ===
+        window.togglePOS = function (btn) {
+            var row = btn.closest('tr');
+            var badge = row.querySelector('.badge');
+
+            if (badge.classList.contains('badge-online')) {
+                badge.classList.remove('badge-online');
+                badge.classList.add('badge-offline');
+                badge.textContent = 'Offline';
+                btn.textContent = 'Připojit';
+                btn.classList.remove('btn-danger');
+                btn.classList.add('btn-success');
+                addLog('Odpojeno: ' + row.cells[0].textContent);
+            } else if (badge.classList.contains('badge-offline')) {
+                badge.classList.remove('badge-offline');
+                badge.classList.add('badge-online');
+                badge.textContent = 'Online';
+                btn.textContent = 'Odpojit';
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-danger');
+                addLog('Připojeno: ' + row.cells[0].textContent);
+            }
+        };
+
+        // === Refresh ===
+        document.getElementById('refreshBtn').addEventListener('click', function () {
+            this.textContent = 'Obnovuji...';
+            var self = this;
+            setTimeout(function () {
+                self.textContent = 'Obnovit';
+                addLog('Data obnovena ze všech pokladen');
+            }, 1000);
+        });
+
+        // === Nové spojení ===
+        document.getElementById('newConnBtn').addEventListener('click', function () {
+            addLog('Pokus o navázání nového VPN spojení...');
+            setTimeout(function () {
+                addLog('Nové VPN spojení úspěšně navázáno');
+            }, 1500);
+        });
+
+        // === Vyčistit logy ===
+        document.getElementById('clearLogsBtn').addEventListener('click', function () {
+            document.getElementById('logsBody').innerHTML = '';
+            addLog('Protokoly vyčištěny');
+        });
+
+        // === Protokoly ===
+        var logLines = [
+            { type: 'info', text: 'Systém spuštěn' },
+            { type: 'success', text: 'POS-001 připojen (Prodejna Centrum)' },
+            { type: 'success', text: 'POS-002 připojen (Prodejna Sever)' },
+            { type: 'success', text: 'POS-003 připojen (Prodejna Jih)' },
+            { type: 'warning', text: 'POS-004 nedostupný (Sklad)' },
+            { type: 'info', text: 'VPN tunel navázán: 192.168.1.10' },
+            { type: 'info', text: 'VPN tunel navázán: 192.168.2.10' },
+        ];
+
+        var logsBody = document.getElementById('logsBody');
+
+        // Inicializace logů
+        logLines.forEach(function (log) {
+            var now = new Date();
+            var time = String(now.getHours()).padStart(2, '0') + ':' +
+                       String(now.getMinutes()).padStart(2, '0') + ':' +
+                       String(now.getSeconds()).padStart(2, '0');
+            var line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.innerHTML = '<span class="' + log.type + '">[' + time + '] ' + log.text + '</span>';
+            logsBody.appendChild(line);
+        });
+
+        function addLog(text, type) {
+            type = type || 'info';
+            var now = new Date();
+            var time = String(now.getHours()).padStart(2, '0') + ':' +
+                       String(now.getMinutes()).padStart(2, '0') + ':' +
+                       String(now.getSeconds()).padStart(2, '0');
+            var line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.innerHTML = '<span class="' + type + '">[' + time + '] ' + text + '</span>';
+            logsBody.appendChild(line);
+            logsBody.scrollTop = logsBody.scrollHeight;
+        }
+
+        // === Nápověda ===
+        var helpToggle = document.getElementById('helpToggle');
+        var helpBody = document.getElementById('helpBody');
+
+        helpToggle.addEventListener('click', function () {
+            helpBody.classList.toggle('open');
+            if (helpBody.classList.contains('open')) {
+                helpToggle.textContent = 'Návod k použití a popis funkčnosti ▲';
+            } else {
+                helpToggle.textContent = 'Návod k použití a popis funkčnosti ▼';
+            }
+        });
+
+        // === Simulace spojení ===
+        setInterval(function () {
+            var dot = document.getElementById('statusDot');
+            var status = document.getElementById('connStatus');
+            var text = document.getElementById('statusText');
+
+            if (Math.random() > 0.95) {
+                dot.classList.add('offline');
+                status.classList.add('offline');
+                text.textContent = 'Obnovuji...';
+                addLog('Spojení ztraceno, obnovuji...', 'warning');
+
+                setTimeout(function () {
+                    dot.classList.remove('offline');
+                    status.classList.remove('offline');
+                    text.textContent = 'Připojeno';
+                    addLog('Spojení obnoveno', 'success');
+                }, 3000);
+            }
+        }, 8000);
+
+    })();
+    </script>
+</body>
+</html>

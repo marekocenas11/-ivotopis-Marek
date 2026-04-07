@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatovací aplikace – Marek Očenáš</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f4f6;
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .app-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #0d47a1;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            background: #1f4e79;
+            color: #fff;
+            text-align: center;
+            padding: 32px 24px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            opacity: 0.85;
+            font-size: 1rem;
+        }
+
+        /* === Karty === */
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid #d8dce2;
+        }
+
+        .card h2 {
+            color: #1f4e79;
+            font-size: 1.3rem;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #d8dce2;
+        }
+
+        .card h3 {
+            color: #333;
+            font-size: 1rem;
+            margin: 18px 0 8px;
+        }
+
+        .card h3:first-of-type {
+            margin-top: 0;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .card ul, .card ol {
+            padding: 0 0 0 4px;
+            list-style: none;
+        }
+
+        .card li {
+            padding: 6px 0 6px 20px;
+            position: relative;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .card ul li::before {
+            content: '\2022';
+            color: #1a237e;
+            font-weight: bold;
+            position: absolute;
+            left: 4px;
+        }
+
+        .card ol {
+            counter-reset: step;
+        }
+
+        .card ol li {
+            counter-increment: step;
+        }
+
+        .card ol li::before {
+            content: counter(step) '.';
+            color: #1a237e;
+            font-weight: bold;
+            position: absolute;
+            left: 2px;
+        }
+
+        /* === Kód === */
+        .code-block {
+            background: #f8fafc;
+            color: #334155;
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin: 10px 0;
+            overflow-x: auto;
+            border: 1px solid #d8dce2;
+        }
+
+        .code-block .prompt {
+            color: #1f4e79;
+        }
+
+        .code-block .comment {
+            color: #6c7086;
+        }
+
+        .code-block .output {
+            color: #0f766e;
+        }
+
+        .code-inline {
+            background: #e8eaf6;
+            color: #1a237e;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.83rem;
+            font-weight: 500;
+        }
+
+        /* === Tech tagy === */
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tech-tag {
+            background: #eef2f6;
+            color: #1f4e79;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: default;
+        }
+
+        .tech-tag:hover {
+            background: #dbe6f2;
+        }
+
+        /* === Schéma === */
+        .diagram {
+            background: #f8fafc;
+            border: 1px solid #d8dce2;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            margin: 14px 0;
+            font-size: 0.9rem;
+        }
+
+        .diagram-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .diagram-box {
+            background: #1f4e79;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            min-width: 100px;
+        }
+
+        .diagram-box.server {
+            background: #2f6b3d;
+        }
+
+        .diagram-arrow {
+            color: #999;
+            font-size: 1.4rem;
+        }
+
+        /* === Tabulka souborů === */
+        .file-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+
+        .file-table th {
+            background: #eef2f6;
+            color: #1f4e79;
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #d8dce2;
+        }
+
+        .file-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .file-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* === Responzivní === */
+        @media (max-width: 500px) {
+            .hero h1 { font-size: 1.5rem; }
+            .card { padding: 20px; }
+            .diagram-row { flex-direction: column; }
+            .diagram-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <a href="../index2.html" class="back-link">&larr; Zpět na životopis</a>
+
+        <div class="hero">
+            <h1>Chatovací aplikace v Pythonu</h1>
+            <p>Jednoduchý začátečnický projekt pro procvičení komunikace klient-server</p>
+        </div>
+
+        <!-- Popis projektu -->
+        <div class="card">
+            <h2>O projektu</h2>
+            <p>Jednoduchá chatovací aplikace postavená v Pythonu, která umožňuje více uživatelům
+            komunikovat v reálném čase prostřednictvím příkazového řádku. Aplikace využívá
+            TCP sockety pro spolehlivou komunikaci a vlákna (threading) pro souběžné zpracování
+            více klientů. Projekt beru jako ukázku základů práce se sítí, ne jako hotový produkt.</p>
+        </div>
+
+        <!-- Architektura -->
+        <div class="card">
+            <h2>Architektura aplikace</h2>
+            <p>Aplikace funguje na principu klient-server:</p>
+            <div class="diagram">
+                <div class="diagram-row">
+                    <div class="diagram-box">Klient 1</div>
+                    <div class="diagram-arrow">&harr;</div>
+                    <div class="diagram-box server">Server</div>
+                    <div class="diagram-arrow">&harr;</div>
+                    <div class="diagram-box">Klient 2</div>
+                </div>
+                <div class="diagram-row">
+                    <div class="diagram-box">Klient 3</div>
+                    <div class="diagram-arrow">&harr;</div>
+                    <div class="diagram-box server">Server</div>
+                    <div class="diagram-arrow">&harr;</div>
+                    <div class="diagram-box">Klient N</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>Server</strong> – přijímá připojení klientů, přeposílá zprávy všem ostatním</li>
+                <li><strong>Klient</strong> – připojí se k serveru, odesílá a přijímá zprávy</li>
+            </ul>
+        </div>
+
+        <!-- Struktura souborů -->
+        <div class="card">
+            <h2>Struktura souborů</h2>
+            <table class="file-table">
+                <tr>
+                    <th>Soubor</th>
+                    <th>Popis</th>
+                </tr>
+                <tr>
+                    <td><span class="code-inline">server.py</span></td>
+                    <td>Chat server – přijímá připojení a přeposílá zprávy</td>
+                </tr>
+                <tr>
+                    <td><span class="code-inline">client.py</span></td>
+                    <td>Chat klient – uživatelské rozhraní v terminálu</td>
+                </tr>
+                <tr>
+                    <td><span class="code-inline">README.md</span></td>
+                    <td>Dokumentace projektu</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Návod -->
+        <div class="card">
+            <h2>Návod k použití</h2>
+
+            <h3>Požadavky</h3>
+            <ul>
+                <li>Python 3.6 nebo novější</li>
+                <li>Žádné externí knihovny – pouze standardní knihovna Pythonu</li>
+            </ul>
+
+            <h3>Krok 1: Spuštění serveru</h3>
+            <p>Otevřete terminál a přejděte do složky <span class="code-inline">chat/</span>:</p>
+            <div class="code-block">
+                <span class="prompt">$</span> cd chat<br>
+                <span class="prompt">$</span> python server.py<br>
+                <br>
+                <span class="output">[Server] Chat server běží na 127.0.0.1:65432</span><br>
+                <span class="output">[Server] Čekám na připojení klientů...</span>
+            </div>
+
+            <h3>Krok 2: Spuštění klienta</h3>
+            <p>Otevřete <strong>nový terminál</strong> (server musí zůstat spuštěný):</p>
+            <div class="code-block">
+                <span class="prompt">$</span> python client.py<br>
+                <br>
+                <span class="output">========================================</span><br>
+                <span class="output">&nbsp;&nbsp; Chatovací aplikace v Pythonu</span><br>
+                <span class="output">&nbsp;&nbsp; (Socket Programming)</span><br>
+                <span class="output">========================================</span><br>
+                <br>
+                <span class="output">Zadejte svou přezdívku: </span><span class="comment">Marek</span><br>
+                <span class="output">[Klient] Připojeno k serveru 127.0.0.1:65432</span>
+            </div>
+
+            <h3>Krok 3: Chatování</h3>
+            <p>Napište zprávu a stiskněte <span class="code-inline">Enter</span>. Zpráva se zobrazí všem ostatním klientům:</p>
+            <div class="code-block">
+                <span class="comment"># Klient 1 (Marek)</span><br>
+                Ahoj, jak se máš?<br>
+                <br>
+                <span class="comment"># Klient 2 (Jana) vidí:</span><br>
+                <span class="output">[Marek] Ahoj, jak se máš?</span>
+            </div>
+
+            <h3>Krok 4: Odpojení</h3>
+            <ul>
+                <li>Napište <span class="code-inline">/quit</span> pro ukončení klienta</li>
+                <li>Na serveru stiskněte <span class="code-inline">Ctrl+C</span> pro zastavení serveru</li>
+            </ul>
+        </div>
+
+        <!-- Funkce -->
+        <div class="card">
+            <h2>Funkce aplikace</h2>
+            <ul>
+                <li><strong>Více klientů najednou</strong> – server obslouží několik připojených uživatelů</li>
+                <li><strong>Přezdívky</strong> – každý uživatel si zvolí jméno při připojení</li>
+                <li><strong>Zprávy v reálném čase</strong> – zprávy se doručují okamžitě všem klientům</li>
+                <li><strong>Oznámení</strong> – server informuje o připojení a odpojení uživatelů</li>
+                <li><strong>Základní práce s vlákny</strong> – každý klient běží ve vlastním vlákně</li>
+                <li><strong>Jednoduché ukončení</strong> – klient i server lze korektně zastavit</li>
+            </ul>
+        </div>
+
+        <!-- Technologie -->
+        <div class="card">
+            <h2>Použité technologie</h2>
+            <div class="tech-grid">
+                <div class="tech-tag">Python 3</div>
+                <div class="tech-tag">socket</div>
+                <div class="tech-tag">threading</div>
+                <div class="tech-tag">TCP/IP</div>
+                <div class="tech-tag">Klient-Server</div>
+            </div>
+
+            <h3>Klíčové koncepty</h3>
+            <ul>
+                <li><strong>TCP Sockety</strong> – spolehlivé, uspořádané doručování dat</li>
+                <li><strong>Threading</strong> – každý klient běží ve vlastním vlákně</li>
+                <li><strong>Broadcasting</strong> – server přeposílá zprávu všem kromě odesílatele</li>
+                <li><strong>UTF-8 kódování</strong> – podpora českých a slovenských znaků</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
