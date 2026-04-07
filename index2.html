@@ -3,102 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vítám vás v mém životopise</title>
+    <title>Životopis – Marek Očenáš</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>Vítám vás v mém životopise</h1>
-    <hr>
+    <header class="hero">
+        <div class="hero-content">
+            <img src="./Image/stickers-pikachu-happy-chibi-pokemon.png" alt="Profilový obrázek" class="profile-img">
+            <h1>Marek Očenáš</h1>
+            <p class="subtitle">Začínající webový vývojář</p>
+        </div>
+    </header>
 
-    <section>
-        <h2>Osobní údaje</h2>
-        <ul>
-            <li><strong>Jméno:</strong> Marek Očenáš</li>
-            <li><strong>Věk:</strong> 28 let</li>
-            <li><strong>Stav:</strong> Svobodný </li>
-        </ul>
-        <img src="./Image/stickers-pikachu-happy-chibi-pokemon.png" alt="Smejuci sa jak" title="Svobodný a bezdětný pikachu" width="200" height="200">
-    </section>
+    <nav class="navbar">
+        <a href="#o-mne">O mně</a>
+        <a href="#vzdelani">Vzdělání</a>
+        <a href="#zkusenosti">Zkušenosti</a>
+        <a href="#dovednosti">Dovednosti</a>
+        <a href="#projekty">Projekty</a>
+        <a href="#odkazy">Odkazy</a>
+        <a href="#kontakt">Kontakt</a>
+    </nav>
 
-    <section>
-        <h2>Něco o mně</h2>
-        <p>Studoval jsem střední školu s maturitou, obor Kuchař.<br>
-        V současnosti jsem začátečník v programování a právě probíhám online kurz na Udemy.<br>
-        Zatím mám zkušenosti pouze s HTML, CSS a JavaScriptem.<br>
-        Rád se učím nové technologie a pracuji na zajímavých projektech.</p>
-    </section>
+    <main class="container">
 
-    <section>
-        <h2>Dosažené vzdělání</h2>
-        <ul>
-            <li>Střední škola s maturitou, obor Kuchař-Čišník<br>
-                <a href="https://sosmt.edupage.org/">S.O.Š Obchodu a služeb Martin</a>
-            </li>
-            <li>Střední škola s vyučením, obor Kuchař-Čišník<br>
-                <a href="https://charbulova.cz/">Střední škola Brno Charbulova</a>
-            </li>
-            <li>Rekvalifikační kurz v oblasti barmanství<br>
-                <a href="https://www.ncm.cz/">NcM gastro academy</a>
-            </li>
-            <li>Online kurz webového vývoje (probíhá)<br>
-                <a href="https://www.udemy.com/">Udemy.com</a>
-            </li>
-        </ul>
-    </section>
+        <section id="osobni" class="card">
+            <h2>Osobní údaje</h2>
+            <div class="card-content">
+                <ul>
+                    <li><strong>Jméno:</strong> Marek Očenáš</li>
+                    <li><strong>Věk:</strong> 28 let</li>
+                    <li><strong>Stav:</strong> svobodný</li>
+                </ul>
+            </div>
+        </section>
 
-    <section>
-        <h2>Pracovní zkušenosti</h2>
-        <ul>
-            <li><a href="https://www.restauracenoaco.cz/">Restaurace No a Co s.r.o.</a> –  tvorba a správa vlastní webové stránky pro bývalou firmu</li>
-            <li><a href="https://rejstrik-firem.kurzy.cz/03024130/velka-pecka-sro/">Velká pecka, s.r.o.</a> –  vyšší pozice, automatizace inventur pomocí NFC čipů a skriptů v Google Apps Script  </li>
-            <li><a href="https://www.dottoredelcaffe.cz/">PH diamond coffee, s.r.o.</a> – nastavení pokladních systémů, vzdálený přístup na prodejně, správa e-shopu</li>
-        </ul>
-    </section>
+        <section id="o-mne" class="card">
+            <h2>Něco o mně</h2>
+            <div class="card-content">
+                <p>Vystudoval jsem střední školu s maturitou, obor Kuchař.
+                V současnosti jsem začátečník v programování a právě absolvuji online kurz na Udemy.
+                Zatím mám zkušenosti s HTML, CSS a JavaScriptem.
+                Rád se učím nové technologie a pracuji na zajímavých projektech.</p>
+            </div>
+        </section>
 
-    <section>
-        <h2>Dovednosti</h2>
-        <ul>
-            <li>Základy webového vývoje (HTML, CSS, JavaScript)</li>
-            <li>Automatizace procesů (inventury, Google Apps Script, NFC čipy)</li>
-            <li>Nastavení pokladních systémů a vzdáleného přístupu na prodejně</li>
-            <li>Nastavování a správa e-shopu</li>
-            <li>Tvorba a správa webových stránek pro firmu</li>
-        </ul>
-    </section>
+        <section id="vzdelani" class="card">
+            <h2>Dosažené vzdělání</h2>
+            <div class="card-content">
+                <ul>
+                    <li>
+                        <strong>Střední škola s maturitou, obor Kuchař-Číšník</strong><br>
+                        <a href="https://sosmt.edupage.org/" target="_blank">S.O.Š Obchodu a služeb Martin</a>
+                    </li>
+                    <li>
+                        <strong>Střední škola s vyučením, obor Kuchař-Číšník</strong><br>
+                        <a href="https://charbulova.cz/" target="_blank">Střední škola Brno Charbulova</a>
+                    </li>
+                    <li>
+                        <strong>Rekvalifikační kurz v oblasti barmanství</strong><br>
+                        <a href="https://www.ncm.cz/" target="_blank">NcM gastro academy</a>
+                    </li>
+                    <li>
+                        <strong>Online kurz webového vývoje</strong> <span class="badge">probíhá</span><br>
+                        <a href="https://www.udemy.com/" target="_blank">Udemy.com</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
 
-    <section>
-        <h2>Moje práce</h2>
-        <ul>
-            <li>Projekt 1: Webová aplikace pro správu úkolů (HTML, CSS, JavaScript)</li>
-            <li>Projekt 2: Chatovací aplikace v Pythonu (socket programming)</li>
-            <li>Projekt 3: Prvotní učení HTML<br>
-                <a href="http://localhost:52330/Multipeg/4.3%20HTML%20Porfolio%20Project/index.html">Moje práce v HTML</a>
-            </li>
-        </ul>
-    </section>
+        <section id="zkusenosti" class="card">
+            <h2>Pracovní zkušenosti</h2>
+            <div class="card-content">
+                <div class="experience-item">
+                    <h3><a href="https://www.restauracenoaco.cz/" target="_blank">Restaurace No a Co s.r.o.</a></h3>
+                    <p>Tvorba a správa vlastní webové stránky pro firmu</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://rejstrik-firem.kurzy.cz/03024130/velka-pecka-sro/" target="_blank">Velká pecka, s.r.o.</a></h3>
+                    <p>Vyšší pozice, automatizace inventur pomocí NFC čipů a skriptů v Google Apps Script</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://www.dottoredelcaffe.cz/" target="_blank">PH diamond coffee, s.r.o.</a></h3>
+                    <p>Nastavení pokladních systémů, vzdálený přístup k prodejně, správa e-shopu</p>
+                </div>
+            </div>
+        </section>
 
-    <section>
-        <h2>Ocenění a certifikáty</h2>
-        <ul>
-            <li>Certifikát z online kurzu webového vývoje na Udemy.com</li>
-            <li>Ocenění za nejlepší projekt v rámci rekvalifikačního kurzu barmanství</li>
-        </ul>
-    </section>
+        <section id="dovednosti" class="card">
+            <h2>Dovednosti</h2>
+            <div class="card-content">
+                <div class="skills-grid">
+                    <div class="skill-tag">HTML</div>
+                    <div class="skill-tag">CSS</div>
+                    <div class="skill-tag">JavaScript</div>
+                    <div class="skill-tag">Google Apps Script</div>
+                    <div class="skill-tag">NFC automatizace</div>
+                    <div class="skill-tag">Pokladní systémy</div>
+                    <div class="skill-tag">Vzdálený přístup</div>
+                    <div class="skill-tag">Správa e-shopu</div>
+                    <div class="skill-tag">Tvorba webových stránek</div>
+                </div>
+            </div>
+        </section>
 
-    <section>
-        <h2>Odkazy</h2>
-        <ul>
-            <li><a href="https://github.com/marekocenas11?tab=overview&from=2026-04-01&to=2026-04-07" target="_blank">Můj GitHub profil</a></li>
-            <li><a href="https://github.com/marekocenas11?tab=repositories" target="_blank">Moje GitHub repozitáře</a></li>
-            <li><a href="https://www.restauracenoaco.cz/" target="_blank">Moje stránka pro firmu Restaurace No a Co</a></li>
-        </ul>
-    </section>
-    <footer>
-        <hr>
-        <a href="./Odkazy/kontaktindex.html">Kontakt</a> |
+        <section id="projekty" class="card">
+            <h2>Moje práce</h2>
+            <div class="card-content">
+                <div class="experience-item">
+                    <h3>Webová aplikace pro správu úkolů</h3>
+                    <p>HTML, CSS, JavaScript</p>
+                </div>
+                <div class="experience-item">
+                    <h3>Chatovací aplikace v Pythonu</h3>
+                    <p>Socket programming</p>
+                </div>
+                <div class="experience-item">
+                    <h3>První kroky v HTML</h3>
+                    <p><a href="http://localhost:52330/Multipeg/4.3%20HTML%20Porfolio%20Project/index.html">Moje práce v HTML</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifikaty" class="card">
+            <h2>Ocenění a certifikáty</h2>
+            <div class="card-content">
+                <ul>
+                    <li>Certifikát z online kurzu webového vývoje na Udemy.com</li>
+                    <li>Ocenění za nejlepší projekt v rámci rekvalifikačního kurzu barmanství</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="odkazy" class="card">
+            <h2>Odkazy</h2>
+            <div class="card-content">
+                <ul>
+                    <li><a href="https://github.com/marekocenas11?tab=overview&from=2026-04-01&to=2026-04-07" target="_blank">Můj GitHub profil</a></li>
+                    <li><a href="https://github.com/marekocenas11?tab=repositories" target="_blank">Moje GitHub repozitáře</a></li>
+                    <li><a href="https://www.restauracenoaco.cz/" target="_blank">Webová stránka firmy Restaurace No a Co</a></li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="kontakt">
+        <a href="./Odkazy/kontaktindex.html">Kontakt</a>
         <a href="./Odkazy/adresaindex.htm">Adresa</a>
-        <hr>
+        <p>&copy; 2026 Marek Očenáš</p>
     </footer>
 
     <script src="script.js"></script>
