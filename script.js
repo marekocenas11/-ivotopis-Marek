@@ -1,6 +1,33 @@
 // Životopis Marek - JavaScript
 document.addEventListener('DOMContentLoaded', function () {
 
+    var profileImage = document.getElementById('profileImage');
+    var imageModal = document.getElementById('imageModal');
+    var imageModalClose = document.getElementById('imageModalClose');
+
+    if (profileImage && imageModal && imageModalClose) {
+        profileImage.addEventListener('click', function () {
+            imageModal.classList.add('open');
+            imageModal.setAttribute('aria-hidden', 'false');
+        });
+
+        imageModalClose.addEventListener('click', function () {
+            imageModal.classList.remove('open');
+            imageModal.setAttribute('aria-hidden', 'true');
+        });
+
+        imageModal.addEventListener('click', function (event) {
+            if (event.target === imageModal) {
+                imageModal.classList.remove('open');
+                imageModal.setAttribute('aria-hidden', 'true');
+            }
+        });
+    }
+
+    function setOpenHeight(content) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+    }
+
     // Karty: kliknutím na nadpis rozbalit/sbalit obsah
     var cards = document.querySelectorAll('.card');
 
@@ -12,11 +39,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Na začátku vše otevřít
         content.classList.add('open');
+        setOpenHeight(content);
 
         heading.setAttribute('title', 'Klikněte pro sbalení/rozbalení');
 
         heading.addEventListener('click', function () {
-            content.classList.toggle('open');
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                content.style.maxHeight = '0px';
+                return;
+            }
+
+            content.classList.add('open');
+            setOpenHeight(content);
+        });
+    });
+
+    window.addEventListener('resize', function () {
+        cards.forEach(function (card) {
+            var content = card.querySelector('.card-content');
+            if (content && content.classList.contains('open')) {
+                setOpenHeight(content);
+            }
         });
     });
 

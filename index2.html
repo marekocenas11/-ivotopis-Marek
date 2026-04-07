@@ -10,11 +10,16 @@
 
     <header class="hero">
         <div class="hero-content">
-            <img src="./Image/stickers-pikachu-happy-chibi-pokemon.png" alt="Profilový obrázek" class="profile-img">
+            <img src="./Image/profil-marek.jpg" alt="Profilová fotografie Marka Očenáše" class="profile-img" id="profileImage">
             <h1>Marek Očenáš</h1>
             <p class="subtitle">Začínající webový vývojář</p>
         </div>
     </header>
+
+    <div class="image-modal" id="imageModal" aria-hidden="true">
+        <span class="image-modal-close" id="imageModalClose">&times;</span>
+        <img src="./Image/profil-marek.jpg" alt="Zvětšená profilová fotografie Marka Očenáše">
+    </div>
 
     <nav class="navbar">
         <a href="#o-mne">O mně</a>
@@ -22,6 +27,7 @@
         <a href="#zkusenosti">Zkušenosti</a>
         <a href="#dovednosti">Dovednosti</a>
         <a href="#projekty">Projekty</a>
+        <a href="#ai-tvorba">AI tvorba</a>
         <a href="#odkazy">Odkazy</a>
         <a href="#kontakt">Kontakt</a>
     </nav>
@@ -54,19 +60,24 @@
             <div class="card-content">
                 <ul>
                     <li>
-                        <strong>Střední škola s maturitou, obor Kuchař-Číšník</strong><br>
+                        <strong>Základní škola Belá-Dulice</strong> – 2013<br>
+                        <a href="https://zsbeladulice.edupage.org/" target="_blank">zsbeladulice.edupage.org</a><br>
+                        ukončena základní školní docházka
+                    </li>
+                    <li>
+                        <strong>Střední škola s maturitou, obor Kuchař-Číšník</strong> – 2013 až 2017<br>
                         <a href="https://sosmt.edupage.org/" target="_blank">S.O.Š Obchodu a služeb Martin</a>
                     </li>
                     <li>
-                        <strong>Střední škola s vyučením, obor Kuchař-Číšník</strong><br>
+                        <strong>Střední škola s vyučením, obor Kuchař-Číšník</strong> – 2024 až 2025,<br>
                         <a href="https://charbulova.cz/" target="_blank">Střední škola Brno Charbulova</a>
                     </li>
                     <li>
-                        <strong>Rekvalifikační kurz v oblasti barmanství</strong><br>
+                        <strong>Rekvalifikační kurz – barman/barmanka</strong> – 2022<br>
                         <a href="https://www.ncm.cz/" target="_blank">NcM gastro academy</a>
                     </li>
                     <li>
-                        <strong>Online kurz webového vývoje</strong> <span class="badge">probíhá</span><br>
+                        <strong>Online kurz webového vývoje</strong> <span class="badge">probíhá</span> – 2026<br>
                         <a href="https://www.udemy.com/" target="_blank">Udemy.com</a>
                     </li>
                 </ul>
@@ -77,16 +88,44 @@
             <h2>Pracovní zkušenosti</h2>
             <div class="card-content">
                 <div class="experience-item">
+                    <h3><a href="https://www.hotelturiec.sk/" target="_blank">Hotel Turiec</a></h3>
+                    <p>2013 až 2016 – školní praxe na pozici kuchař</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://www.google.com/search?q=Brn%C4%9Bnsk%C3%A1+televize+BTV" target="_blank">Brněnská televize (BTV)</a></h3>
+                    <p>2016 až 2017 – kameraman a střihač televizních novin</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://www.google.com/search?q=Restaurace+u+Raka+Brno" target="_blank">Restaurace u Raka</a></h3>
+                    <p>2017 až 2018 – číšník, později šéfkuchař</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://www.google.com/search?q=Tab%C3%A1k+%C4%8Cernopoln%C3%AD+Brno" target="_blank">Tabák Černopolní</a></h3>
+                    <p>2018 až 2020 – vedoucí trafiky a pobočky PPL, práce se systémem, inventury, remitendy, reklamace</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://www.google.com/search?q=Bistro+na+Osmi%C4%8Dce+Brno" target="_blank">Bar na Osmičce / Bistro na Osmičce</a></h3>
+                    <p>2020 – hlavní číšník a barman</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://www.google.com/search?q=Gebauer+%26+Griller+Mikulov" target="_blank">Gebauer &amp; Griller, Mikulov</a></h3>
+                    <p>únor 2021 až duben 2022 – operátor manuální výroby, později inspektor kvality výroby</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://www.superzoo.cz/" target="_blank">SuperZoo Brno-Komárov</a></h3>
+                    <p>2023 – vedoucí směny</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://www.dottoredelcaffe.cz/" target="_blank">PH Diamond Caffe</a></h3>
+                    <p>2023 až 2024 – manažer a obchodní zástupce kaváren, správa e-shopu Dottore del Caffè</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://rejstrik-firem.kurzy.cz/03024130/velka-pecka-sro/" target="_blank">VELKÁ PECKA s.r.o. / Rohlík.cz</a></h3>
+                    <p>2024 až 2025 – oddělení VLS, vedoucí logistické směny, práce s logistickými systémy, automatizace inventur pomocí NFC čipů a skriptů v Google Apps Script. <a href="https://docs.google.com/spreadsheets/d/18E5vT91yMZ3lbKOFS4gVqOc4PqQmEesHIib0OUUUtfE/edit?gid=364510790#gid=364510790" target="_blank">Ukázka NFC inventury</a></p>
+                </div>
+                <div class="experience-item">
                     <h3><a href="https://www.restauracenoaco.cz/" target="_blank">Restaurace No a Co s.r.o.</a></h3>
-                    <p>Tvorba a správa vlastní webové stránky pro firmu</p>
-                </div>
-                <div class="experience-item">
-                    <h3><a href="https://rejstrik-firem.kurzy.cz/03024130/velka-pecka-sro/" target="_blank">Velká pecka, s.r.o.</a></h3>
-                    <p>Vyšší pozice, automatizace inventur pomocí NFC čipů a skriptů v Google Apps Script</p>
-                </div>
-                <div class="experience-item">
-                    <h3><a href="https://www.dottoredelcaffe.cz/" target="_blank">PH diamond coffee, s.r.o.</a></h3>
-                    <p>Nastavení pokladních systémů, vzdálený přístup k prodejně, správa e-shopu</p>
+                    <p>2025 až nyní – moje vlastní restaurace, kterou jsem vedl jako majitel a provozní, včetně tvorby a správy firemní webové stránky</p>
                 </div>
             </div>
         </section>
@@ -97,20 +136,47 @@
                 <div class="skills-grid">
                     <div class="skill-tag">HTML</div>
                     <div class="skill-tag">CSS</div>
-                    <div class="skill-tag">JavaScript</div>
-                    <div class="skill-tag">Základy Pythonu</div>
-                    <div class="skill-tag">Google Apps Script</div>
+                    <div class="skill-tag">MS Office</div>
+                    <div class="skill-tag">Google Sheets</div>
+                    <div class="skill-tag">Google Docs</div>
+                    <div class="skill-tag">Google Drive</div>
+                    <div class="skill-tag">ChatGPT</div>
+                    <div class="skill-tag">Gemini</div>
                     <div class="skill-tag">NFC automatizace</div>
                     <div class="skill-tag">Pokladní systémy</div>
                     <div class="skill-tag">Vzdálený přístup</div>
                     <div class="skill-tag">Správa e-shopu</div>
                     <div class="skill-tag">Tvorba webových stránek</div>
+                    <div class="skill-tag">Shoptet</div>
+                    <div class="skill-tag">Alza</div>
+                    <div class="skill-tag">Allegro</div>
+                    <div class="skill-tag">Trello</div>
+                    <div class="skill-tag">Angličtina – základy</div>
+                    <div class="skill-tag">Vedení týmu</div>
                 </div>
             </div>
         </section>
 
         <section id="projekty" class="card">
             <h2>Moje práce</h2>
+            <div class="card-content">
+                <div class="experience-item">
+                    <h3><a href="https://www.restauracenoaco.cz/" target="_blank">Web Restaurace No a Co</a></h3>
+                    <p>Jednoduchá firemní prezentace vytvořená pro reálné použití.</p>
+                </div>
+                <div class="experience-item">
+                    <h3><a href="https://docs.google.com/spreadsheets/d/18E5vT91yMZ3lbKOFS4gVqOc4PqQmEesHIib0OUUUtfE/edit?gid=364510790#gid=364510790" target="_blank">NFC inventura</a></h3>
+                    <p>Praktická ukázka práce s inventurou a automatizací pomocí NFC čipů a Google Sheets.</p>
+                </div>
+                <div class="experience-item">
+                    <h3>První kroky v HTML</h3>
+                    <p><a href="http://localhost:52330/Multipeg/4.3%20HTML%20Porfolio%20Project/index.html">Moje práce v HTML</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-tvorba" class="card">
+            <h2>Tvoření webů pomocí AI</h2>
             <div class="card-content">
                 <div class="experience-item">
                     <h3>Jednoduchý seznam úkolů</h3>
@@ -123,10 +189,6 @@
                 <div class="experience-item">
                     <h3>Jednoduchá chatovací aplikace v Pythonu</h3>
                     <p>Můj začátečnický projekt pro procvičení práce se sockety a komunikace klient-server. <a href="chat/index.html">Zobrazit popis</a></p>
-                </div>
-                <div class="experience-item">
-                    <h3>První kroky v HTML</h3>
-                    <p><a href="http://localhost:52330/Multipeg/4.3%20HTML%20Porfolio%20Project/index.html">Moje práce v HTML</a></p>
                 </div>
             </div>
         </section>
@@ -147,6 +209,7 @@
                 <ul>
                     <li><a href="https://github.com/marekocenas11?tab=overview&from=2026-04-01&to=2026-04-07" target="_blank">Můj GitHub profil</a></li>
                     <li><a href="https://github.com/marekocenas11?tab=repositories" target="_blank">Moje GitHub repozitáře</a></li>
+                    <li><a href="https://docs.google.com/spreadsheets/d/18E5vT91yMZ3lbKOFS4gVqOc4PqQmEesHIib0OUUUtfE/edit?gid=364510790#gid=364510790" target="_blank">NFC inventura – Google Sheets</a></li>
                     <li><a href="https://www.restauracenoaco.cz/" target="_blank">Webová stránka firmy Restaurace No a Co</a></li>
                 </ul>
             </div>

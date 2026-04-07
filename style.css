@@ -33,6 +33,42 @@ body {
     border: 3px solid rgba(255, 255, 255, 0.35);
     margin-bottom: 12px;
     object-fit: cover;
+    object-position: center 22%;
+    cursor: pointer;
+}
+
+.image-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.image-modal.open {
+    display: flex;
+}
+
+.image-modal img {
+    max-width: min(90vw, 720px);
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.image-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    line-height: 1;
 }
 
 .hero h1 {
@@ -115,7 +151,6 @@ body {
 }
 
 .card-content.open {
-    max-height: 600px;
     opacity: 1;
 }
 
