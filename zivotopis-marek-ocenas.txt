@@ -1,0 +1,139 @@
+Marek Očenáš
+Začínající webový vývojář
+
+OSOBNÍ ÚDAJE
+- Jméno: Marek Očenáš
+- Věk: 28 let
+- Stav: svobodný
+
+NĚCO O MNĚ
+Studoval jsem střední školu s maturitou, obor Kuchař.
+V současnosti se učím základy programování a absolvuji online kurz na Udemy.
+Zatím pracuji hlavně s HTML, CSS a JavaScriptem.
+V portfoliu ukazuji své první jednodušší projekty, na kterých se postupně učím praxi.
+
+DOSAŽENÉ VZDĚLÁNÍ
+- Základní škola Belá-Dulice – 2013
+  ukončena základní školní docházka
+  https://zsbeladulice.edupage.org/
+
+- Střední škola s maturitou, obor Kuchař-Číšník – 2013 až 2017
+  S.O.Š Obchodu a služeb Martin
+  https://sosmt.edupage.org/
+
+- Střední škola s vyučením, obor Kuchař-Číšník – 2024 až 2025
+  Střední škola Brno Charbulova
+  https://charbulova.cz/
+
+- Rekvalifikační kurz – barman/barmanka – 2022
+  NcM gastro academy
+  https://www.ncm.cz/
+
+- Online kurz webového vývoje (probíhá) – 2026
+  Udemy.com
+  https://www.udemy.com/
+
+PRACOVNÍ ZKUŠENOSTI
+- Hotel Turiec – 2013 až 2016
+  školní praxe na pozici kuchař
+  https://www.hotelturiec.sk/
+
+- Brněnská televize (BTV) – 2016 až 2017
+  kameraman a střihač televizních novin
+  https://www.google.com/search?q=Brn%C4%9Bnsk%C3%A1+televize+BTV
+
+- Restaurace u Raka – 2017 až 2018
+  číšník, později šéfkuchař
+  https://www.google.com/search?q=Restaurace+u+Raka+Brno
+
+- Tabák Černopolní – 2018 až 2020
+  vedoucí trafiky a pobočky PPL
+  https://www.google.com/search?q=Tab%C3%A1k+%C4%8Cernopoln%C3%AD+Brno
+
+- Bar na Osmičce / Bistro na Osmičce – 2020
+  hlavní číšník a barman
+  https://www.google.com/search?q=Bistro+na+Osmi%C4%8Dce+Brno
+
+- Gebauer & Griller, Mikulov – únor 2021 až duben 2022
+  operátor manuální výroby, později inspektor kvality výroby
+  https://www.google.com/search?q=Gebauer+%26+Griller+Mikulov
+
+- SuperZoo Brno-Komárov – 2023
+  vedoucí směny
+  https://www.superzoo.cz/
+
+- PH Diamond Caffe – 2023 až 2024
+  manažer a obchodní zástupce kaváren, správa e-shopu Dottore del Caffè
+  https://www.dottoredelcaffe.cz/
+
+- VELKÁ PECKA s.r.o. / Rohlík.cz – 2024 až 2025
+  oddělení VLS, vedoucí logistické směny, práce s logistickými systémy,
+  automatizace inventur pomocí NFC čipů a skriptů v Google Apps Script
+  Firma: https://rejstrik-firem.kurzy.cz/03024130/velka-pecka-sro/
+  Ukázka NFC inventury:
+  https://docs.google.com/spreadsheets/d/18E5vT91yMZ3lbKOFS4gVqOc4PqQmEesHIib0OUUUtfE/edit?gid=364510790#gid=364510790
+
+- Restaurace No a Co s.r.o. – 2025 až nyní
+  moje vlastní restaurace, kterou jsem vedl jako majitel a provozní,
+  včetně tvorby a správy firemní webové stránky
+  https://www.restauracenoaco.cz/
+
+DOVEDNOSTI
+- Základy webového vývoje (HTML, CSS)
+- MS Office (Excel, Word)
+- Nástroje Google (Google Sheets, Google Docs, Google Drive)
+- Práce s AI nástroji (ChatGPT, Gemini)
+- Nastavení e-shopů a marketplace platforem (Shoptet, Alza, Allegro, CIS)
+- Trello
+- Automatizace procesů (inventury, Google Apps Script, NFC čipy)
+- Nastavení pokladních systémů a vzdáleného přístupu na prodejně
+- Nastavování a správa e-shopu
+- Tvorba a správa webových stránek pro firmu
+- Základní komunikace v anglickém jazyce
+- Zkušenosti s vedením týmu a provozním managementem
+
+MOJE PRÁCE
+- Web Restaurace No a Co
+  jednoduchá firemní prezentace
+  https://www.restauracenoaco.cz/
+
+- NFC inventura
+  praktická ukázka práce s inventurou a automatizací
+  https://docs.google.com/spreadsheets/d/18E5vT91yMZ3lbKOFS4gVqOc4PqQmEesHIib0OUUUtfE/edit?gid=364510790#gid=364510790
+
+- Prvotní učení HTML
+  http://localhost:52330/Multipeg/4.3%20HTML%20Porfolio%20Project/index.html
+
+TVOŘENÍ WEBŮ POMOCÍ AI
+- Jednoduchý seznam úkolů
+  první menší projekt v HTML, CSS a JavaScriptu
+  todo-app.html
+
+- Jednoduché demo správy pokladen
+  ukázka přehledu pokladen a vzdálené kontroly
+  pos-dashboard.html
+
+- Jednoduchá chatovací aplikace v Pythonu
+  procvičení práce se sockety a komunikace klient-server
+  chat/index.html
+
+OCENĚNÍ A CERTIFIKÁTY
+- Certifikát z online kurzu webového vývoje na Udemy.com
+- Ocenění za nejlepší projekt v rámci rekvalifikačního kurzu barmanství
+
+ODKAZY
+- GitHub profil:
+  https://github.com/marekocenas11?tab=overview&from=2026-04-01&to=2026-04-07
+
+- GitHub repozitáře:
+  https://github.com/marekocenas11?tab=repositories
+
+- NFC inventura – Google Sheets:
+  https://docs.google.com/spreadsheets/d/18E5vT91yMZ3lbKOFS4gVqOc4PqQmEesHIib0OUUUtfE/edit?gid=364510790#gid=364510790
+
+- Webová stránka firmy Restaurace No a Co:
+  https://www.restauracenoaco.cz/
+
+KONTAKT
+- Kontakt: ./Odkazy/kontaktindex.html
+- Adresa: ./Odkazy/adresaindex.htm
